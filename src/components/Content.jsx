@@ -1,24 +1,45 @@
 import { Box, Grid, Typography, useTheme } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-
 import Input from "./Input";
 import DataTable from "./DataTable";
 import { coinsHeader } from "../constants";
-
 import { useGetCryptoByNameQuery } from "../redux/crypto";
 import { currencyFormatter } from "../utils/currencyFormatter";
-
 import { setSearch } from "../redux/crypto-slice";
 import { useNavigate } from "react-router-dom";
+import PagesCol from "./Pagination";
+import { useReducer } from "react";
+
+const initialState = {
+  page: 1,
+};
+
+function reducer(state, action) {
+  console.log(action);
+  switch (action.type) {
+    case "CHANGE_PAGE":
+      return { ...state, page: action.payload };
+
+    default:
+      return state;
+  }
+}
 
 const Content = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
 
+  const [{ page }, dispatchAc] = useReducer(reducer, initialState);
+
   const { search } = useSelector((state) => state.crypto);
 
-  const { data: coinData, isLoading } = useGetCryptoByNameQuery("usd", {
+  const apiData = {
+    apiCurrency: "usd",
+    page: page,
+  };
+
+  const { data: coinData, isLoading } = useGetCryptoByNameQuery(apiData, {
     refetchOnMountOrArgChange: true,
   });
 
@@ -46,10 +67,12 @@ const Content = () => {
     return data.name.toLowerCase().includes(search.toLowerCase());
   });
 
-  console.log(filteredData);
+  function handleChangePage(e, val) {
+    dispatchAc({ type: "CHANGE_PAGE", payload: val });
+  }
 
   return (
-    <Box sx={{ p: theme.spacing(2, 26, 2, 26) }}>
+    <Box sx={{ p: theme.spacing(2, 26, 4, 26) }}>
       {isLoading && <p>Loading Data...</p>}
       <Grid container>
         <Grid size={12}>
@@ -75,6 +98,9 @@ const Content = () => {
             data={filteredData || []}
             onCellClick={handleCellClick}
           />
+        </Grid>
+        <Grid size={12} mt={4}>
+          <PagesCol page={page} onChange={handleChangePage} />
         </Grid>
       </Grid>
     </Box>
