@@ -5,13 +5,14 @@ import DataTable from "./DataTable";
 import { coinsHeader } from "../constants";
 import { useGetCryptoByNameQuery } from "../redux/crypto";
 import { currencyFormatter } from "../utils/currencyFormatter";
-import { setSearch } from "../redux/crypto-slice";
-import { useNavigate } from "react-router-dom";
+import { setCryptoCoinData, setSearch } from "../redux/crypto-slice";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import PagesCol from "./Pagination";
 import { useReducer } from "react";
 
 const initialState = {
   page: 1,
+  cryptoCoinData: {},
 };
 
 function reducer(state, action) {
@@ -19,6 +20,8 @@ function reducer(state, action) {
   switch (action.type) {
     case "CHANGE_PAGE":
       return { ...state, page: action.payload };
+    case "UPDATE_COIN_DATA":
+      return { ...state, cryptoCoinData: action.payload };
 
     default:
       return state;
@@ -30,7 +33,10 @@ const Content = () => {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  const [{ page }, dispatchAc] = useReducer(reducer, initialState);
+  const [{ page, cryptoCoinData }, dispatchAc] = useReducer(
+    reducer,
+    initialState
+  );
 
   const { search } = useSelector((state) => state.crypto);
 
@@ -49,8 +55,8 @@ const Content = () => {
   }
 
   function handleCellClick(coinData) {
-    navigate("/coin");
-    console.log(coinData);
+    dispatch(setCryptoCoinData(coinData));
+    navigate(`/coin/${coinData.id}`);
   }
 
   const formattedCoinData = coinData?.map((item) => {
