@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import Content from "./Content";
 import Header from "./Header";
 import Hero from "./Hero";
@@ -6,8 +7,10 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <Hero />
-      <Content />
+
+      <main>
+        <Outlet />
+      </main>
     </>
   );
 };

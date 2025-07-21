@@ -9,9 +9,11 @@ import { useGetCryptoByNameQuery } from "../redux/crypto";
 import { currencyFormatter } from "../utils/currencyFormatter";
 
 import { setSearch } from "../redux/crypto-slice";
+import { useNavigate } from "react-router-dom";
 
 const Content = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const theme = useTheme();
 
   const { search } = useSelector((state) => state.crypto);
@@ -26,6 +28,7 @@ const Content = () => {
   }
 
   function handleCellClick(coinData) {
+    navigate("/coin");
     console.log(coinData);
   }
 
