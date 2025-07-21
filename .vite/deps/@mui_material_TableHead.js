@@ -1,0 +1,17 @@
+import {
+  TableHead_default,
+  getTableHeadUtilityClass,
+  tableHeadClasses_default
+} from "./chunk-GOGGFCTQ.js";
+import "./chunk-5RLQJLH3.js";
+import "./chunk-HQ6YYV7H.js";
+import "./chunk-3V6MM5CP.js";
+import "./chunk-ZNVVQF6B.js";
+import "./chunk-TWJRYSII.js";
+import "./chunk-DC5AMYBS.js";
+export {
+  TableHead_default as default,
+  getTableHeadUtilityClass,
+  tableHeadClasses_default as tableHeadClasses
+};
+//# sourceMappingURL=@mui_material_TableHead.js.map

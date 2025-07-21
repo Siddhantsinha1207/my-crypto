@@ -21,9 +21,17 @@ const TableHeadCell = styled(TableCell)(({ theme }) => ({
   fontWeight: theme.typography.fontWeightBold,
   fontSize: theme.typography.fontSize.primary,
 }));
+const CoinImage = styled("img")(({ theme }) => ({
+  width: "2rem",
+  marginRight: "1rem",
+}));
+
+const StyledContainer = styled("div")(({ theme }) => ({
+  display: "flex",
+}));
 
 function Row(props) {
-  const { row, header } = props;
+  const { row, header, onCellClick } = props;
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -36,9 +44,12 @@ function Row(props) {
       >
         {header.map((item) => {
           const { title } = item;
-          console.log(item);
           return (
-            <TableCell key={item.title} scope="row">
+            <TableCell
+              key={item.title}
+              scope="row"
+              onClick={() => onCellClick(row)}
+            >
               {title === "icon" ? (
                 <IconButton
                   aria-label="expand row"
@@ -47,6 +58,13 @@ function Row(props) {
                 >
                   {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                 </IconButton>
+              ) : title === "name" ? (
+                <StyledContainer style={{ display: "flex" }}>
+                  <CoinImage src={row.image} />
+                  <div>
+                    <Typography>{row.name}</Typography>
+                  </div>
+                </StyledContainer>
               ) : (
                 row[title]
               )}
@@ -112,8 +130,7 @@ Row.propTypes = {
 };
 
 export default function DataTable(props) {
-  const { header, data } = props;
-  console.log(data);
+  const { header, data, onCellClick } = props;
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -126,7 +143,14 @@ export default function DataTable(props) {
         </TableHead>
         <TableBody>
           {data.length > 0 ? (
-            data?.map((row) => <Row key={row.name} row={row} header={header} />)
+            data?.map((row) => (
+              <Row
+                key={row.name}
+                row={row}
+                header={header}
+                onCellClick={onCellClick}
+              />
+            ))
           ) : (
             <Typography sx={{ p: 2, textAlign: "center", fontSize: 20 }}>
               Loading Data... Please wait!

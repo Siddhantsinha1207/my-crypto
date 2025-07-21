@@ -15,8 +15,12 @@ const Content = () => {
     refetchOnMountOrArgChange: true,
   });
 
+  function handleCellClick(coinData) {
+    console.log(coinData);
+  }
+
   return (
-    <Box sx={{ p: theme.spacing(2, 26, 0, 26) }}>
+    <Box sx={{ p: theme.spacing(2, 26, 2, 26) }}>
       {isLoading && <p>Loading Data...</p>}
       <Grid container>
         <Grid size={12}>
@@ -36,7 +40,11 @@ const Content = () => {
           <Input label="Search for a crypto currency" />
         </Grid>
         <Grid size={12} mt={2}>
-          <DataTable header={coinsHeader} data={coinData || []} />
+          <DataTable
+            header={coinsHeader}
+            data={coinData || []}
+            onCellClick={handleCellClick}
+          />
         </Grid>
       </Grid>
     </Box>
