@@ -7,6 +7,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 
@@ -17,20 +18,17 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: "top",
-    },
-    title: {
-      display: true,
-      text: "Chart.js Line Chart",
-    },
-  },
+  // responsive: true,
+  // plugins: {
+  //   legend: {
+  //     position: "top",
+  //   },
+  // },
 };
 
 const currentTime = new Date();
@@ -64,9 +62,12 @@ export default function CryptoChart(props) {
     labels,
     datasets: [
       {
-        label: "Dataset 1",
+        label: "Price (Past 24hr) in USD",
         data: props.chartData,
-        fill: true,
+        fill: {
+          target: "origin",
+          above: "#eebd1d3e",
+        },
         borderColor: "#eebc1d",
         backgroundColor: "#000000",
       },
