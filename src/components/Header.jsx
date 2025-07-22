@@ -5,6 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import Logo from "../assets/cover.png";
 import { styled, useTheme } from "@mui/material";
 import CustomButton from "./CustomButton.jsx";
+import { useNavigate } from "react-router-dom";
 
 const LogoImg = styled("img")(({}) => ({
   height: 40,
@@ -13,6 +14,7 @@ const LogoImg = styled("img")(({}) => ({
 
 export default function Header() {
   const theme = useTheme();
+  const navigate = useNavigate();
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -31,6 +33,7 @@ export default function Header() {
             aria-controls="menu-appbar"
             aria-haspopup="true"
             color="inherit"
+            onClick={() => navigate("/")}
           >
             <LogoImg src={Logo} alt="Logo" />
           </IconButton>

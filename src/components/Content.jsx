@@ -56,6 +56,7 @@ const Content = () => {
 
   function handleCellClick(coinData) {
     dispatch(setCryptoCoinData(coinData));
+    localStorage.setItem("coinData", JSON.stringify(coinData));
     navigate(`/coin/${coinData.id}`);
   }
 
