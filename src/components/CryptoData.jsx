@@ -11,7 +11,12 @@ const CryptoData = () => {
 
   const coinData = localStorage.getItem("coinData");
   const crypto = JSON.parse(coinData);
-  const { data } = useGetCryptoCoinDataByNameQuery();
+  console.log(crypto);
+  const { data } = useGetCryptoCoinDataByNameQuery(crypto.id);
+
+  const { data: cData } = useGetCryptoTimelyDataByNameQuery(crypto.id);
+
+  const filteredData = cData?.prices?.map((item) => item[1]);
 
   return (
     <Box sx={{ p: theme.spacing(2) }}>
@@ -53,7 +58,7 @@ const CryptoData = () => {
           </Grid>
         </Grid>
         <Grid size={8}>
-          <CryptoChart />
+          <CryptoChart chartData={filteredData} />
         </Grid>
       </Grid>
     </Box>

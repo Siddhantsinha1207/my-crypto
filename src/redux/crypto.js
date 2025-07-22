@@ -11,10 +11,11 @@ export const cryptoApi = createApi({
         `coins/markets?vs_currency=${data.apiCurrency}&order=market_cap_desc&per_page=10&page=${data.page}`,
     }),
     getCryptoCoinDataByName: builder.query({
-      query: () => `coins/bitcoin`,
+      query: (crypto) => `coins/${crypto}`,
     }),
     getCryptoTimelyDataByName: builder.query({
-      query: () => `coins/bitcoin/market_chart?vs_currency=usd&days=1`,
+      query: (currencyType) =>
+        `coins/${currencyType}/market_chart?vs_currency=usd&days=1`,
     }),
   }),
 });

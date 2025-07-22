@@ -9,7 +9,6 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { useGetCryptoTimelyDataByNameQuery } from "../redux/crypto";
 
 ChartJS.register(
   CategoryScale,
@@ -47,7 +46,7 @@ function getLast24hTime() {
 
     const ampm = hours >= 12 ? "PM" : "AM";
     hours = hours % 12;
-    hours = hours || 12; // convert 0 to 12
+    hours = hours || 12;
 
     const timeStr =
       `${String(hours).padStart(2, "0")}:` +
@@ -58,12 +57,7 @@ function getLast24hTime() {
   return timeArr;
 }
 
-export default function CryptoChart() {
-  const { data: cData } = useGetCryptoTimelyDataByNameQuery();
-  console.log(cData);
-
-  const filteredData = cData?.prices?.map((item) => item[1]);
-
+export default function CryptoChart(props) {
   const labels = getLast24hTime();
 
   const data = {
@@ -71,11 +65,10 @@ export default function CryptoChart() {
     datasets: [
       {
         label: "Dataset 1",
-        //   data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-        data: filteredData,
+        data: props.chartData,
         fill: true,
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        borderColor: "#eebc1d",
+        backgroundColor: "#000000",
       },
     ],
   };
