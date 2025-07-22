@@ -1,11 +1,18 @@
 import { useTheme } from "@emotion/react";
 import { Box, Grid, Typography } from "@mui/material";
+import {
+  useGetCryptoCoinDataByNameQuery,
+  useGetCryptoTimelyDataByNameQuery,
+} from "../redux/crypto";
+import CryptoChart from "./CryptoChart";
 
 const CryptoData = () => {
   const theme = useTheme();
 
   const coinData = localStorage.getItem("coinData");
-  const data = JSON.parse(coinData);
+  const crypto = JSON.parse(coinData);
+  const { data } = useGetCryptoCoinDataByNameQuery();
+
   return (
     <Box sx={{ p: theme.spacing(2) }}>
       <Grid container>
@@ -17,30 +24,37 @@ const CryptoData = () => {
         >
           <Grid size={12}>
             <img
-              src={data.image}
+              src={crypto.image}
               style={{ height: 150, width: 150, margin: "0 auto" }}
             />
           </Grid>
           <Grid size={12} mt={3} textAlign="center">
-            <Typography variant="h2">{data.name}</Typography>
+            <Typography variant="h2">{crypto.name}</Typography>
           </Grid>
-          <Grid size={12} mt={4}>
-            <Typography variant="h5">
-              <b>Rank: &nbsp;</b> {data["market_cap_rank"]}
+          <Grid size={12} mt={3}>
+            <Typography variant="p">
+              {data?.description["en"].split(".")[0]}
             </Typography>
           </Grid>
           <Grid size={12} mt={4}>
             <Typography variant="h5">
-              <b>Current Price: &nbsp;</b> {data["current_price"]}
+              <b>Rank: &nbsp;</b> {crypto["market_cap_rank"]}
             </Typography>
           </Grid>
           <Grid size={12} mt={4}>
             <Typography variant="h5">
-              <b>Market Cap: &nbsp;</b> {data["market_cap"]}
+              <b>Current Price: &nbsp;</b> {crypto["current_price"]}
+            </Typography>
+          </Grid>
+          <Grid size={12} mt={4}>
+            <Typography variant="h5">
+              <b>Market Cap: &nbsp;</b> {crypto["market_cap"]}
             </Typography>
           </Grid>
         </Grid>
-        <Grid size={8}>2</Grid>
+        <Grid size={8}>
+          <CryptoChart />
+        </Grid>
       </Grid>
     </Box>
   );
